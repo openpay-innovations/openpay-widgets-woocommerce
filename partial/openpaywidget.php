@@ -4,6 +4,11 @@
 
  */
 
+if (!defined('WCOPENPAY_ABSPATH'))
+    define( 'WCOPENPAY_ABSPATH', __DIR__ . '/' );
+
+require_once WCOPENPAY_ABSPATH.'class/WC_Gateway_Openpay.php';
+
 class OpenpayWidget
 {
     private $openpay_widget_options;
@@ -378,25 +383,25 @@ class OpenpayWidget
     public function currency_15_callback()
     {
         ?> <select name="openpay_widget_option_name[currency_15]" id="currency_15">
-           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '$‎') ? 'selected' : '' ; ?>
-            <option value="$‎" <?php echo $selected; ?>>$</option>
+           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '$â€Ž') ? 'selected' : '' ; ?>
+            <option value="$â€Ž" <?php echo $selected; ?>>$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'A$') ? 'selected' : '' ; ?>
             <option value="A$" <?php echo $selected; ?>>A$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'AU$') ? 'selected' : '' ; ?>
             <option value="AU$" <?php echo $selected; ?>>AU$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'AUD') ? 'selected' : '' ; ?>
             <option value="AUD" <?php echo $selected; ?>>AUD</option>
-           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '£') ? 'selected' : '' ; ?>
-            <option value="£" <?php echo $selected; ?>>£</option>
+           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'Â£') ? 'selected' : '' ; ?>
+            <option value="Â£" <?php echo $selected; ?>>Â£</option>
         </select> <?php
     }
 
     public function minimum_checkout_value_4_callback()
     {
-         $minimum_checkout = determine_plugin_data('minimum_checkout');
-
+                  
+        $gateway = WC_Gateway_Openpay::getInstance();
+        $minimum_checkout = $gateway->get_option('minimum');
         
-
         printf(
             '<input class="regular-text" type="text" name="openpay_widget_option_name[minimum_checkout_value_4]" id="minimum_checkout_value_4" value="%s" disabled>',
             isset($minimum_checkout) ? esc_attr($minimum_checkout) : ''
@@ -405,20 +410,20 @@ class OpenpayWidget
 
     public function maximum_checkout_value_5_callback()
     {
-        $maximum_checkout = determine_plugin_data('maximum_checkout');
+        
+        $op_gateway = WC_Gateway_Openpay::getInstance();
+        $maximum_checkout = $op_gateway->get_option('maximum');
+        
         printf(
             '<input class="regular-text" type="text" name="openpay_widget_option_name[maximum_checkout_value_5]" id="maximum_checkout_value_5" value="%s" disabled>',
             isset($maximum_checkout) ? esc_attr($maximum_checkout) : ''
         );
     }
-
-    
+   
 
     public function show_info_belt_widget_6_callback()
     {
         ?> 
-
-       
 
         <select name="openpay_widget_option_name[show_info_belt_widget_6]" id="show_info_belt_widget_6">
             <?php $selected = (isset($this->openpay_widget_options['show_info_belt_widget_6']) && $this->openpay_widget_options['show_info_belt_widget_6'] === 'homepage') ? 'selected' : '' ; ?>

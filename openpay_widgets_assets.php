@@ -16,6 +16,11 @@ if (!defined('ABSPATH')) {
 }
 
 if (!class_exists('Openpay_JsPlugin')) {
+    
+    if (!defined('WCOPENPAY_ABSPATH'))
+        define( 'WCOPENPAY_ABSPATH', __DIR__ . '/' );
+    
+    require_once WCOPENPAY_ABSPATH.'class/WC_Gateway_Openpay.php';
   
     class Openpay_JsPlugin
     {
@@ -424,7 +429,8 @@ if (!class_exists('Openpay_JsPlugin')) {
 
         function add_script_footer()
         {
-
+            $op_gateway = WC_Gateway_Openpay::getInstance();
+            
             $openpay_widget_options = get_option('openpay_widget_option_name'); // Array of All Options
             $enable_0 = $openpay_widget_options['enable_0']; // Enable
             $region_1 = $openpay_widget_options['region_1']; // Region
@@ -437,15 +443,10 @@ if (!class_exists('Openpay_JsPlugin')) {
             $show_openpay_logo_11 = $openpay_widget_options['show_openpay_logo_11']; // Show Openpay Logo
             $currency_15 = $openpay_widget_options['currency_15'];
             $custom_css_16 = $openpay_widget_options['custom_css_16'];
+                        
             
-
-            $minimum_checkout = determine_plugin_data('minimum_checkout');
-
-            $maximum_checkout = determine_plugin_data('maximum_checkout');
-
-            
-
-            
+            $minimum_checkout = $op_gateway->get_option('minimum');
+            $maximum_checkout = $op_gateway->get_option('maximum');
 
 
             if ($enable_0 == 'yes') {
