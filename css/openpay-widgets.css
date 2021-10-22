@@ -1,0 +1,90 @@
+/* Openpay style */
+
+.openpaycheckout {
+    width: 340px;
+    position: relative;
+    background: #F5F6F7;
+    border: solid 1px #f6f6f6;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 10 px;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+    color: #333332;
+    padding: 32px 0px;
+}
+
+
+.openpaycheckout .opplantier {
+    font: 16px/24px Openpay Headline;
+    color: #333332;
+}
+
+.openpaycheckout .opfortnightly {
+    color: #333332;
+    padding: 7px 0;
+    font: normal 14px/21px canada-type-gibson;
+}
+
+.openpaycheckout .opinstruction {
+    color: #333332;
+    font: 300 12px/18px canada-type-gibson;
+    padding: 5px 58px 0px 58px;
+}
+
+
+.openpaywrap{}
+
+.openpaywrap h2{ font-size: 24px; }
+.cpwopenpaylogo{
+width: 75px;
+border-radius: 3px;
+height: 24px !important;
+background-color: #FFB81C;}
+
+.payment_method_openpay {
+    width: 100%;
+}
+
+opy-learn-more-button {
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+#openpayinfobelt {
+    
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+.openpaysticky {position: fixed;}
+.openpaybottom{height:40px;}
+
+
+
+@media only screen and (max-width: 549px) {
+.payment_method_openpay {
+    width: 285px;
+}
+ .openpaycheckout {
+    width: 260px;
+  
+}
+.openpaycheckout .opinstruction {
+    padding: 5px 20px 0px 20px;
+}
+
+.openpaycheckout .opplantier {
+    font: 14px/22px Openpay Headline;
+}
+
+}
+
+@media only screen and (min-width: 550px) and (max-width: 1024px){
+ .payment_method_openpay {
+    width: 450px;
+}
+
+
+}
