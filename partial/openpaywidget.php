@@ -383,16 +383,18 @@ class OpenpayWidget
     public function currency_15_callback()
     {
         ?> <select name="openpay_widget_option_name[currency_15]" id="currency_15">
-           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '$â€Ž') ? 'selected' : '' ; ?>
-            <option value="$â€Ž" <?php echo $selected; ?>>$</option>
+           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '$') ? 'selected' : '' ; ?>
+            <option value="$" <?php echo $selected; ?>>$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'A$') ? 'selected' : '' ; ?>
             <option value="A$" <?php echo $selected; ?>>A$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'AU$') ? 'selected' : '' ; ?>
             <option value="AU$" <?php echo $selected; ?>>AU$</option>
            <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'AUD') ? 'selected' : '' ; ?>
             <option value="AUD" <?php echo $selected; ?>>AUD</option>
-           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'Â£') ? 'selected' : '' ; ?>
-            <option value="Â£" <?php echo $selected; ?>>Â£</option>
+           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === '£') ? 'selected' : '' ; ?>
+            <option value="£" <?php echo $selected; ?>>£</option>
+           <?php $selected = (isset($this->openpay_widget_options['currency_15']) && $this->openpay_widget_options['currency_15'] === 'GBP') ? 'selected' : '' ; ?>
+            <option value="GBP" <?php echo $selected; ?>>GBP</option>
         </select> <?php
     }
 
