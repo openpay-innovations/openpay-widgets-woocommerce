@@ -53,7 +53,7 @@ To set up `Openpay Widgets`, fill out the fields as per your Openpay account con
 
 Check with Openpay / Ecommerce Manager for your Plan Tiers configuration. Below are the configuration page from where you can choose different options available for each widget.
 
-<img width="960" alt="opy-widgets-settings" src="https://user-images.githubusercontent.com/58763572/141090505-3f1e9562-17e5-46eb-9e64-85d64317f137.png">
+<img width="960" alt="opy-widgets-settings" src="https://user-images.githubusercontent.com/58763572/141090963-bae1bf0d-6a27-4132-88ac-4173fafa0333.png">
 
 
 ## License
