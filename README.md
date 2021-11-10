@@ -17,7 +17,7 @@ Openpay Widgets is a WooCommerce plugin with a predefined set of configuration o
 
 Openpay Widget plugin is a set of widgets, when installed and activated will show the widgets on the following pages:
 
-- Info Belt � Top section of the HomePage
+- Info Belt displayes at the Top section of the HomePage
 - Product Catalog / Listing Page
 - Product Detail Page
 - Cart Page
