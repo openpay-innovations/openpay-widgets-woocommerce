@@ -4,11 +4,6 @@
 
  */
 
-if (!defined('WCOPENPAY_ABSPATH'))
-    define( 'WCOPENPAY_ABSPATH', __DIR__ . '/' );
-
-require_once WCOPENPAY_ABSPATH.'class/WC_Gateway_Openpay.php';
-
 class OpenpayWidget
 {
     private $openpay_widget_options;
@@ -183,10 +178,34 @@ class OpenpayWidget
              'openpay-widget-admin', // page
              'openpay_widget_setting_section' // section
          );
-
+         
+         add_settings_field(
+             'openpay_pdp_logo_position', // id
+             'Product Page Widget Logo Position', // title
+             array( $this, 'openpay_pdp_logo_position_callback' ), // callback
+             'openpay-widget-admin', // page
+             'openpay_widget_setting_section' // section
+         );
+         
+         add_settings_field(
+             'openpay_pdp_infoicon', // id
+             'Product Page Widget - Info Icon', // title
+             array( $this, 'openpay_pdp_infoicon_callback' ), // callback
+             'openpay-widget-admin', // page
+             'openpay_widget_setting_section' // section
+         );
+         
+         add_settings_field(
+            'openpay_pdp_learnmore_text', // id
+            'Product Page Widget - Learn more text', // title
+            array( $this, 'openpay_pdp_learnmore_text_callback' ), // callback
+            'openpay-widget-admin', // page
+            'openpay_widget_setting_section' // section
+        );
+         
          add_settings_field(
              'show_cart_widget_8', // id
-             'Show Cart Page Widget', // title
+             'Show Cart Widget', // title
              array( $this, 'show_cart_widget_8_callback' ), // callback
              'openpay-widget-admin', // page
              'openpay_widget_setting_section' // section
@@ -194,16 +213,48 @@ class OpenpayWidget
 
          add_settings_field(
              'openpay_logo_19', // id
-             'Cart Page Widget Logo', // title
+             'Cart Widget Logo', // title
              array( $this, 'openpay_logo_19_callback' ), // callback
              'openpay-widget-admin', // page
              'openpay_widget_setting_section' // section
          );
+         
+         add_settings_field(
+             'openpay_cart_infoicon', // id
+             'Cart Widget - Info Icon', // title
+             array( $this, 'openpay_cart_infoicon_callback' ), // callback
+             'openpay-widget-admin', // page
+             'openpay_widget_setting_section' // section
+         );
+         
+         add_settings_field(
+            'openpay_cart_learnmore_text', // id
+            'Cart Widget - Learn more text', // title
+            array( $this, 'openpay_cart_learnmore_text_callback' ), // callback
+            'openpay-widget-admin', // page
+            'openpay_widget_setting_section' // section
+        );
 
         add_settings_field(
             'show_checkout_page_widget_12', // id
-            'Show Checkout Page Widget', // title
+            'Show Checkout Widget', // title
             array( $this, 'show_checkout_page_widget_12_callback' ), // callback
+            'openpay-widget-admin', // page
+            'openpay_widget_setting_section' // section
+        );
+        
+        add_settings_field(
+             'openpay_chkwidget_infoicon', // id
+             'Checkout Widget - Info Icon', // title
+             array( $this, 'openpay_chkwidget_infoicon_callback' ), // callback
+             'openpay-widget-admin', // page
+             'openpay_widget_setting_section' // section
+         );
+        
+        add_settings_field(
+            'openpay_chkwidget_learnmore_text', // id
+            'Checkout Page Widget - Learn more text', // title
+            array( $this, 'openpay_chkwidget_learnmore_text_callback' ), // callback
             'openpay-widget-admin', // page
             'openpay_widget_setting_section' // section
         );
@@ -286,6 +337,10 @@ class OpenpayWidget
         if (isset($input['show_checkout_page_widget_12'])) {
             $sanitary_values['show_checkout_page_widget_12'] = $input['show_checkout_page_widget_12'];
         }
+        
+        if (isset($input['openpay_chkwidget_learnmore_text'])) {
+            $sanitary_values['openpay_chkwidget_learnmore_text'] = sanitize_text_field($input['openpay_chkwidget_learnmore_text']);
+        }
 
         if (isset($input['fornightly_checkout_13'])) {
             $sanitary_values['fornightly_checkout_13'] = sanitize_text_field($input['fornightly_checkout_13']);
@@ -312,7 +367,32 @@ class OpenpayWidget
         if (isset($input['openpay_logo_19'])) {
             $sanitary_values['openpay_logo_19'] = $input['openpay_logo_19'];
         }
+        
+        if (isset($input['openpay_pdp_infoicon'])) {
+            $sanitary_values['openpay_pdp_infoicon'] = $input['openpay_pdp_infoicon'];
+        }
+        
+        if (isset($input['openpay_pdp_learnmore_text'])) {
+            $sanitary_values['openpay_pdp_learnmore_text'] = sanitize_text_field($input['openpay_pdp_learnmore_text']);
+        }
+        
+        if (isset($input['openpay_pdp_logo_position'])) {
+            $sanitary_values['openpay_pdp_logo_position'] = $input['openpay_pdp_logo_position'];
+        }
 
+        if (isset($input['openpay_cart_infoicon'])) {
+            $sanitary_values['openpay_cart_infoicon'] = $input['openpay_cart_infoicon'];
+        }
+        
+        if (isset($input['openpay_chkwidget_infoicon'])) {
+            $sanitary_values['openpay_chkwidget_infoicon'] = $input['openpay_chkwidget_infoicon'];
+        }
+                
+        if (isset($input['openpay_cart_learnmore_text'])) {
+            $sanitary_values['openpay_cart_learnmore_text'] = sanitize_text_field($input['openpay_cart_learnmore_text']);
+        }
+            
+        
         return $sanitary_values;
     }
 
@@ -400,9 +480,14 @@ class OpenpayWidget
 
     public function minimum_checkout_value_4_callback()
     {
-                  
-        $gateway = WC_Gateway_Openpay::getInstance();
-        $minimum_checkout = $gateway->get_option('minimum');
+        
+        if(get_option('woocommerce_openpay_settings')){
+            $payment_plugin_options = get_option('woocommerce_openpay_settings');
+            
+            $minimum_checkout = $payment_plugin_options['minimum'];
+        } else {
+            $minimum_checkout = "";
+        }
         
         printf(
             '<input class="regular-text" type="text" name="openpay_widget_option_name[minimum_checkout_value_4]" id="minimum_checkout_value_4" value="%s" disabled>',
@@ -413,8 +498,13 @@ class OpenpayWidget
     public function maximum_checkout_value_5_callback()
     {
         
-        $op_gateway = WC_Gateway_Openpay::getInstance();
-        $maximum_checkout = $op_gateway->get_option('maximum');
+        if(get_option('woocommerce_openpay_settings')){
+            $payment_plugin_options = get_option('woocommerce_openpay_settings');
+            
+            $maximum_checkout = $payment_plugin_options['maximum'];
+        } else {
+            $maximum_checkout = "";
+        }
         
         printf(
             '<input class="regular-text" type="text" name="openpay_widget_option_name[maximum_checkout_value_5]" id="maximum_checkout_value_5" value="%s" disabled>',
@@ -481,8 +571,6 @@ class OpenpayWidget
     {
         ?> 
 
-       
-
         <select name="openpay_widget_option_name[openpay_logo_18]" id="openpay_logo_18">
             <?php $selected = (isset($this->openpay_widget_options['openpay_logo_18']) && $this->openpay_widget_options['openpay_logo_18'] === 'grey-on-amberbg') ? 'selected' : '' ; ?>
             <option value="grey-on-amberbg" <?php echo $selected; ?>> Grey Logo with Amber Background</option>       
@@ -494,7 +582,58 @@ class OpenpayWidget
             <option value="white" <?php echo $selected; ?>> White</option>
         </select> <?php
     }
+    
+    public function openpay_pdp_logo_position_callback()
+    {
+        ?> <select name="openpay_widget_option_name[openpay_pdp_logo_position]" id="openpay_pdp_logo_position">
+            <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_logo_position']) && $this->openpay_widget_options['openpay_pdp_logo_position'] === 'right') ? 'selected' : '' ; ?>
+            <option value="right" <?php echo $selected; ?>> Right</option>
+            <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_logo_position']) && $this->openpay_widget_options['openpay_pdp_logo_position'] === 'left') ? 'selected' : '' ; ?>
+            <option value="left" <?php echo $selected; ?>> Left</option>
+        </select> <?php
+    }
 
+    public function openpay_pdp_infoicon_callback()
+    {
+        ?> 
+
+        <select name="openpay_widget_option_name[openpay_pdp_infoicon]" id="openpay_pdp_infoicon">
+            <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_infoicon']) && $this->openpay_widget_options['openpay_pdp_infoicon'] === 'none') ? 'selected' : '' ; ?>
+            <option value="none" <?php echo $selected; ?>> None</option>
+            <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_infoicon']) && $this->openpay_widget_options['openpay_pdp_infoicon'] === 'grey') ? 'selected' : '' ; ?>
+            <option value="grey" <?php echo $selected; ?>> Grey</option>       
+            <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_infoicon']) && $this->openpay_widget_options['openpay_pdp_infoicon'] === 'amber') ? 'selected' : '' ; ?>
+             <option value="amber" <?php echo $selected; ?>> Amber</option>
+             <?php $selected = (isset($this->openpay_widget_options['openpay_pdp_infoicon']) && $this->openpay_widget_options['openpay_pdp_infoicon'] === 'white') ? 'selected' : '' ; ?>
+              <option value="white" <?php echo $selected; ?>> White </option>              
+        </select> <?php
+    }
+    
+    public function openpay_pdp_learnmore_text_callback()
+    {
+        printf(
+            '<input class="regular-text" type="text" name="openpay_widget_option_name[openpay_pdp_learnmore_text]" id="openpay_pdp_learnmore_text" value="%s" >',
+            isset($this->openpay_widget_options['openpay_pdp_learnmore_text']) ? esc_attr($this->openpay_widget_options['openpay_pdp_learnmore_text']) : ''
+        );
+    }
+    
+    public function openpay_cart_learnmore_text_callback()
+    {
+        printf(
+            '<input class="regular-text" type="text" name="openpay_widget_option_name[openpay_cart_learnmore_text]" id="openpay_cart_learnmore_text" value="%s" >',
+            isset($this->openpay_widget_options['openpay_cart_learnmore_text']) ? esc_attr($this->openpay_widget_options['openpay_cart_learnmore_text']) : ''
+        );
+    }
+    
+    
+    public function openpay_chkwidget_learnmore_text_callback()
+    {
+        printf(
+            '<input class="regular-text" type="text" name="openpay_widget_option_name[openpay_chkwidget_learnmore_text]" id="openpay_chkwidget_learnmore_text" value="%s" >',
+            isset($this->openpay_widget_options['openpay_chkwidget_learnmore_text']) ? esc_attr($this->openpay_widget_options['openpay_chkwidget_learnmore_text']) : ''
+        );
+    }
+    
     public function show_catalog_page_widget_10_callback()
     {
         ?> <select name="openpay_widget_option_name[show_catalog_page_widget_10]" id="show_catalog_page_widget_10">
@@ -552,6 +691,38 @@ class OpenpayWidget
             <?php $selected = (isset($this->openpay_widget_options['openpay_logo_19']) && $this->openpay_widget_options['openpay_logo_19'] === 'grey') ? 'selected' : '' ; ?>
             <option value="grey" <?php echo $selected; ?>> Grey</option>
            
+        </select> <?php
+    }
+    
+    public function openpay_cart_infoicon_callback()
+    {
+        ?> 
+
+        <select name="openpay_widget_option_name[openpay_cart_infoicon]" id="openpay_cart_infoicon">
+            <?php $selected = (isset($this->openpay_widget_options['openpay_cart_infoicon']) && $this->openpay_widget_options['openpay_cart_infoicon'] === 'none') ? 'selected' : '' ; ?>
+            <option value="none" <?php echo $selected; ?>> None</option>
+            <?php $selected = (isset($this->openpay_widget_options['openpay_cart_infoicon']) && $this->openpay_widget_options['openpay_cart_infoicon'] === 'grey') ? 'selected' : '' ; ?>
+            <option value="grey" <?php echo $selected; ?>> Grey</option>       
+            <?php $selected = (isset($this->openpay_widget_options['openpay_cart_infoicon']) && $this->openpay_widget_options['openpay_cart_infoicon'] === 'amber') ? 'selected' : '' ; ?>
+             <option value="amber" <?php echo $selected; ?>> Amber</option>
+             <?php $selected = (isset($this->openpay_widget_options['openpay_cart_infoicon']) && $this->openpay_widget_options['openpay_cart_infoicon'] === 'white') ? 'selected' : '' ; ?>
+              <option value="white" <?php echo $selected; ?>> White </option>             
+        </select> <?php
+    }
+    
+    public function openpay_chkwidget_infoicon_callback()
+    {
+        ?> 
+
+        <select name="openpay_widget_option_name[openpay_chkwidget_infoicon]" id="openpay_chkwidget_infoicon">
+            <?php $selected = (isset($this->openpay_widget_options['openpay_chkwidget_infoicon']) && $this->openpay_widget_options['openpay_chkwidget_infoicon'] === 'none') ? 'selected' : '' ; ?>
+            <option value="none" <?php echo $selected; ?>> None</option>
+            <?php $selected = (isset($this->openpay_widget_options['openpay_chkwidget_infoicon']) && $this->openpay_widget_options['openpay_chkwidget_infoicon'] === 'grey') ? 'selected' : '' ; ?>
+            <option value="grey" <?php echo $selected; ?>> Grey</option>       
+            <?php $selected = (isset($this->openpay_widget_options['openpay_chkwidget_infoicon']) && $this->openpay_widget_options['openpay_chkwidget_infoicon'] === 'amber') ? 'selected' : '' ; ?>
+             <option value="amber" <?php echo $selected; ?>> Amber</option>
+             <?php $selected = (isset($this->openpay_widget_options['openpay_chkwidget_infoicon']) && $this->openpay_widget_options['openpay_chkwidget_infoicon'] === 'white') ? 'selected' : '' ; ?>
+              <option value="white" <?php echo $selected; ?>> White </option>             
         </select> <?php
     }
 

@@ -62,8 +62,9 @@ if (! defined('ABSPATH')) {
     $instruction_checkout_14 = $openpay_widget_options['instruction_checkout_14'];
     $region_1 = $openpay_widget_options['region_1'];
 
-
-
+    $openpay_chkwidget_infoicon = (isset($openpay_widget_options['openpay_chkwidget_infoicon']) ? $openpay_widget_options['openpay_chkwidget_infoicon'] : "none");
+    $openpay_chkwidget_learnmore_text = (isset($openpay_widget_options['openpay_chkwidget_learnmore_text']) ? $openpay_widget_options['openpay_chkwidget_learnmore_text'] : "");
+    
     if ($show_checkout_page_widget_12 =='yes') { ?>
     <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr($gateway->id); ?>" <?php checked($gateway->chosen, true); ?> data-order_button_text="<?php echo esc_attr($gateway->order_button_text); ?>" />
 
@@ -74,7 +75,7 @@ if (! defined('ABSPATH')) {
      <span>
 
 
-          <?php echo esc_attr($gateway->title);  ?> <?php echo esc_attr($gateway->description);  ?> <img src="https://static.openpay.com.au/brand/logo/amber-lozenge-logo.svg" alt="Openpay" class="cpwopenpaylogo"><opy-learn-more-button></opy-learn-more-button></span>
+          <?php echo esc_attr($gateway->title);  ?> <?php echo esc_attr($gateway->description);  ?> <img src="https://static.openpay.com.au/brand/logo/amber-lozenge-logo.svg" alt="Openpay" class="cpwopenpaylogo"><opy-learn-more-button more-info-text="<?php echo $openpay_chkwidget_learnmore_text; ?>" info-icon="<?php echo $openpay_chkwidget_infoicon; ?>"></opy-learn-more-button></span>
 
     </label>
 

@@ -3,9 +3,9 @@
 Plugin Name: Openpay Widgets
 Plugin URI: https://github.com/openpay-innovations/opy-widgetsplugin-woocommerce
 Description: Reminds customers to choose Openpay as their payment method at checkout. Works only when WooCommerce is active.
-Version: 1.1.0
-Author: Openpay
-Author URI: https://www.openpay.com.au/
+Version: 1.1.1
+Author: Opy
+Author URI: https://www.opy.com/
 
 Copyright: Openpay | All Rights Reserved
 License: GNU General Public License v3.0
@@ -17,11 +17,6 @@ if (!defined('ABSPATH')) {
 
 if (!class_exists('Openpay_JsPlugin')) {
     
-    if (!defined('WCOPENPAY_ABSPATH'))
-        define( 'WCOPENPAY_ABSPATH', __DIR__ . '/' );
-    
-    require_once WCOPENPAY_ABSPATH.'class/WC_Gateway_Openpay.php';
-  
     class Openpay_JsPlugin
     {
         /**
@@ -125,6 +120,9 @@ if (!class_exists('Openpay_JsPlugin')) {
             $show_openpay_logo_11 = $openpay_widget_options['show_openpay_logo_11']; // Show Openpay Logo
             $openpay_logo_18 = $openpay_widget_options['openpay_logo_18'];
 
+            $openpay_pdp_infoicon = $openpay_widget_options['openpay_pdp_infoicon'];
+            $openpay_pdp_logo_position = $openpay_widget_options['openpay_pdp_logo_position'];
+            $openpay_pdp_learnmore_text = $openpay_widget_options['openpay_pdp_learnmore_text'];
 
 
             if ($enable_0 == 'yes') {
@@ -155,7 +153,7 @@ if (!class_exists('Openpay_JsPlugin')) {
                     }
 
                     ?>
-            <div  class="opyproduct"><opy-product-page amount="<?php echo $price; ?>" logo="<?php echo $openpay_logo_18; ?>"></opy-product-page></div>
+            <div  class="opyproduct"><opy-product-page amount="<?php echo $price; ?>" logo="<?php echo $openpay_logo_18; ?>" logo-position="<?php echo $openpay_pdp_logo_position; ?>" more-info-text="<?php echo $openpay_pdp_learnmore_text; ?>" info-icon="<?php echo $openpay_pdp_infoicon; ?>"></opy-product-page></div>
                 <?php }
             }
         }
@@ -271,7 +269,7 @@ if (!class_exists('Openpay_JsPlugin')) {
             
 
 
-            $html.= '<div  class="opyproduct"><opy-product-page amount="' .$variationprice.'" logo="'.$openpay_logo_18.'"></opy-product-page></div>';
+            $html.= '<div  class="opyproduct"><opy-product-page amount="' .$variationprice.'" logo="'.$openpay_logo_18.'" more-info-text="'.$openpay_pdp_learnmore_text.'" info-icon="'.$openpay_pdp_infoicon.'" logo-position="'.$openpay_pdp_logo_position.'"></opy-product-page></div>';
 
             
 
@@ -363,12 +361,19 @@ if (!class_exists('Openpay_JsPlugin')) {
             $show_catalog_page_widget_10 = $openpay_widget_options['show_catalog_page_widget_10']; // Show Catalog Page Widget
             $show_openpay_logo_11 = $openpay_widget_options['show_openpay_logo_11']; // Show Openpay Logo
             $openpay_logo_19 = $openpay_widget_options['openpay_logo_19'];
+            
+            $openpay_pdp_infoicon = $openpay_widget_options['openpay_pdp_infoicon'];
+            $openpay_pdp_logo_position = $openpay_widget_options['openpay_pdp_logo_position'];
+            $openpay_pdp_learnmore_text = $openpay_widget_options['openpay_pdp_learnmore_text'];
+            
+            $openpay_cart_infoicon = $openpay_widget_options['openpay_cart_infoicon'];
+            $openpay_cart_learnmore_text = $openpay_widget_options['openpay_cart_learnmore_text'];
 
             if ($enable_0 == 'yes') {
                 if ($show_cart_widget_8  == 'yes') {
                     ?>
 
-            <div class="opycart"><opy-cart amount="<?php echo $cart_total;?>" logo="<?php echo $openpay_logo_19; ?>"></opy-cart></div>
+            <div class="opycart"><opy-cart amount="<?php echo $cart_total;?>" logo="<?php echo $openpay_logo_19; ?>" more-info-text="<?php echo $openpay_cart_learnmore_text; ?>" info-icon="<?php echo $openpay_cart_infoicon; ?>"></opy-cart></div>
 
                 <?php }
             }
@@ -429,7 +434,16 @@ if (!class_exists('Openpay_JsPlugin')) {
 
         function add_script_footer()
         {
-            $op_gateway = WC_Gateway_Openpay::getInstance();
+            
+            if(get_option('woocommerce_openpay_settings')){
+                $payment_plugin_options = get_option('woocommerce_openpay_settings');               
+            
+                $minimum_checkout = $payment_plugin_options['minimum'];
+                $maximum_checkout = $payment_plugin_options['maximum'];
+            } else {
+                $minimum_checkout = "";
+                $maximum_checkout = "";
+            }
             
             $openpay_widget_options = get_option('openpay_widget_option_name'); // Array of All Options
             $enable_0 = $openpay_widget_options['enable_0']; // Enable
@@ -443,11 +457,6 @@ if (!class_exists('Openpay_JsPlugin')) {
             $show_openpay_logo_11 = $openpay_widget_options['show_openpay_logo_11']; // Show Openpay Logo
             $currency_15 = $openpay_widget_options['currency_15'];
             $custom_css_16 = $openpay_widget_options['custom_css_16'];
-                        
-            
-            $minimum_checkout = $op_gateway->get_option('minimum');
-            $maximum_checkout = $op_gateway->get_option('maximum');
-
 
             if ($enable_0 == 'yes') {
                 if (($show_info_belt_widget_6 == 'homepage') || ($show_info_belt_widget_6 == 'acrossthesite') ||($show_cart_widget_8 == 'yes') || ($show_product_page_widget_9 == 'yes') || ($show_catalog_page_widget_10 == 'yes')) { ?>
