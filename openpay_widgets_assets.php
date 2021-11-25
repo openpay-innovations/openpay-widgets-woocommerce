@@ -118,8 +118,8 @@ if (!class_exists('Openpay_JsPlugin')) {
             $show_product_page_widget_9 = $openpay_widget_options['show_product_page_widget_9']; // Show Product Page Widget
             $show_catalog_page_widget_10 = $openpay_widget_options['show_catalog_page_widget_10']; // Show Catalog Page Widget
             $show_openpay_logo_11 = $openpay_widget_options['show_openpay_logo_11']; // Show Openpay Logo
+            
             $openpay_logo_18 = $openpay_widget_options['openpay_logo_18'];
-
             $openpay_pdp_infoicon = $openpay_widget_options['openpay_pdp_infoicon'];
             $openpay_pdp_logo_position = $openpay_widget_options['openpay_pdp_logo_position'];
             $openpay_pdp_learnmore_text = $openpay_widget_options['openpay_pdp_learnmore_text'];
@@ -263,11 +263,12 @@ if (!class_exists('Openpay_JsPlugin')) {
             } else {
                 $variationprice = $product->get_price();
             }
-
             
-
-            
-
+            $openpay_widget_options = get_option('openpay_widget_option_name');
+            $openpay_logo_18 = $openpay_widget_options['openpay_logo_18'];
+            $openpay_pdp_infoicon = $openpay_widget_options['openpay_pdp_infoicon'];
+            $openpay_pdp_logo_position = $openpay_widget_options['openpay_pdp_logo_position'];
+            $openpay_pdp_learnmore_text = $openpay_widget_options['openpay_pdp_learnmore_text'];
 
             $html.= '<div  class="opyproduct"><opy-product-page amount="' .$variationprice.'" logo="'.$openpay_logo_18.'" more-info-text="'.$openpay_pdp_learnmore_text.'" info-icon="'.$openpay_pdp_infoicon.'" logo-position="'.$openpay_pdp_logo_position.'"></opy-product-page></div>';
 
