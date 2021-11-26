@@ -75,7 +75,7 @@ if (! defined('ABSPATH')) {
      <span>
 
 
-          <?php echo esc_attr($gateway->title);  ?> <img src="https://static.openpay.com.au/brand/logo/amber-lozenge-logo.svg" alt="Openpay" class="cpwopenpaylogo"><opy-learn-more-button more-info-text="<?php echo $openpay_chkwidget_learnmore_text; ?>" info-icon="<?php echo $openpay_chkwidget_infoicon; ?>"></opy-learn-more-button></span>
+          <?php echo esc_attr($gateway->title);  ?> <?php echo esc_attr($gateway->description);  ?> <img src="https://static.openpay.com.au/brand/logo/amber-lozenge-logo.svg" alt="Openpay" class="cpwopenpaylogo"><opy-learn-more-button more-info-text="<?php echo $openpay_chkwidget_learnmore_text; ?>" info-icon="<?php echo $openpay_chkwidget_infoicon; ?>"></opy-learn-more-button></span>
 
     </label>
 
@@ -86,7 +86,7 @@ if (! defined('ABSPATH')) {
                                            endif; ?>>
 
      
-<?php echo esc_attr($gateway->description);  ?> 
+
       
 
           <div class="openpaycheckout">
