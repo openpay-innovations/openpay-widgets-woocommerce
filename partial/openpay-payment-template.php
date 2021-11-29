@@ -97,9 +97,9 @@ if (! defined('ABSPATH')) {
                     $tiersmin = sizeof($tiers);
                                                
                     if ($tiersmin == 1) {
-                        $checkouttext = ($region_1 == 'AU') ? "<div class='opplantier'>Spread the cost over " .min($tiers)." months.</div>" : "<div class='opplantier'>Pay over " .min($tiers). " interest free <br>monthly instalments.</div>";
+                        $checkouttext = "<div class='opplantier'>Spread the cost over " .min($tiers)." months.</div>";
                     } else {
-                        $checkouttext = ($region_1 == 'AU') ? "<div class='opplantier'>Spread the cost over " .min($tiers)."-".trim(max($tiers), " ")." months.</div>" : "<div class='opplantier'>Pay over " .min($tiers). '-'.trim(max($tiers), " "). " interest free <br>monthly instalments.</div>";
+                        $checkouttext = "<div class='opplantier'>Spread the cost over " .min($tiers)."-".trim(max($tiers), " ")." months.</div>";
                     }
 
                     echo  $checkouttext;
