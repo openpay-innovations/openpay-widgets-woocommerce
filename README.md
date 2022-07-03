@@ -31,7 +31,7 @@ Openpay Widget plugin is a set of widgets, when installed and activated will sho
 
 ## Pre-requisite
 
-Please install the [Openpay Payment Plugin](https://github.com/openpay-innovations/opy-paymentplugin-woocommerce) before installing the Widgets plugin
+Please install the [Openpay Payment Plugin](https://github.com/openpay-innovations/openpay-payment-gateway-for-woocommerce) before installing the Widgets plugin
 
 ## Requirements
 

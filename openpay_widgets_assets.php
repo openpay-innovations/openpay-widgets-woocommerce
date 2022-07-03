@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Openpay Widgets
-Plugin URI: https://github.com/openpay-innovations/opy-widgetsplugin-woocommerce
+Plugin URI: https://github.com/openpay-innovations/openpay-widgets-woocommerce
 Description: Reminds customers to choose Openpay as their payment method at checkout. Works only when WooCommerce is active.
 Version: 1.1.1
 Author: Opy
